@@ -34,7 +34,7 @@ export class ChatGPTBot {
     this.botName = botName;
   }
   get chatGroupTiggerKeyword(): string {
-    return `@${this.botName}`;
+    return config.chatPrivateTiggerKeyword;
   }
   async startGPTBot() {
     console.debug(`Start GPT Bot Config is:${JSON.stringify(config)}`);
@@ -83,10 +83,10 @@ export class ChatGPTBot {
     let triggered = false;
     if (privateChat) {
       triggered = chatPrivateTiggerKeyword
-        ? text.includes(chatPrivateTiggerKeyword)
+        ? text.startsWith(chatPrivateTiggerKeyword)
         : true;
     } else {
-      triggered = text.includes(this.chatGroupTiggerKeyword);
+      triggered = text.startsWith(this.chatGroupTiggerKeyword);
     }
     if (triggered) {
       console.log(`🎯 Triggered ChatGPT: ${text}`);
